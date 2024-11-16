@@ -15,6 +15,8 @@ Put poast.py in /masto-poast/ in whatever directory you're SSH-ing into (you can
 
 NOW, as long as your new posts are formatted /year/month/day/title, and you've *correctly* supplied your blog URL and VPS IP to the YML, and *as long as* your new posts go to _posts on your site, AND as long as you setup BOTH of those keys, and supplied poast.py with your instance URL (there are clearly marked sections in both scripts that depict where you should put these things) ...
 
+(make sure you make an environment for the script and then pip install requests beautifulsoup)
+
 This will post new Jekyll blog posts directly to Mastodon, by reading the current day and *only* posting blog posts ***from said date*** (I've done this in order to avoid spam, which I have done, by accident, multiple times).
 
 Included in poast.py is a field to customize just exactly *what* the post says once it's posted to your instance. Mine says, "Posted via Nova Prime: (url)" and then supplies a hashtag derived from my tags I'm using on Jekyll. You should *also* set that up, so that your posts can categorize themselves upon posting to Mastodon. But that's easy enough to setup.
