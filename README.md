@@ -15,7 +15,7 @@ Put poast.py in /masto-poast/ in whatever directory you're SSH-ing into (you can
 
 NOW, as long as your new posts are formatted /year/month/day/title, and you've *correctly* supplied your blog URL and VPS IP to the YML, and *as long as* your new posts go to _posts on your site, AND as long as you setup BOTH of those keys, and supplied poast.py with your instance URL (there are clearly marked sections in both scripts that depict where you should put these things) ...
 
-*Also note: Make sure you make an environment for the script and then run:
+*Also note: Make sure you make an environment for the script and then run:*
 ```
 pip install requests beautifulsoup
 ```
