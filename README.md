@@ -121,3 +121,7 @@ You should *also* note that poast.py is currently looking into div class "indent
 ```
 
 ***VOILA!***
+
+Once you've made a post, I would suggest watching the workflow in-action on Github to make sure it's functioning properly. There *should* be sufficient debugging attached to these scripts to figure out what's going wrong, *if anything goes wrong*.
+
+Enjoy.
