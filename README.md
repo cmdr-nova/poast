@@ -108,3 +108,16 @@ Then, in the "head" document (which you should have as head.html in the _include
   {% endif %}
 ```
 Boom, now you can put tags onto your posts, and **POAST** will use these as hashtags once posted to Mastodon.
+
+You should *also* note that poast.py is currently looking into div class "indent" in order to extract the first < p > tag (i.e., the first paragraph of your post) for a summary. You *likely* won't be using a div class called "indent" to wrap around your posts, so change this to whatever div class contains your posts!
+```
+    # Extract the first <p> tag within the .indent div as a summary
+    indent_div = soup.find('div', {'class': 'indent'})
+    if indent_div:
+        paragraphs = indent_div.find_all('p')
+        summary = paragraphs[0].get_text() if paragraphs else "No summary available"
+    else:
+        summary = "No summary available"
+```
+
+***VOILA!***
