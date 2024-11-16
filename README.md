@@ -11,6 +11,8 @@ Once you've done that, it's SIMPLE.
 
 Put poast.py in /masto-poast/ in whatever directory you're SSH-ing into (you can change this, if you want), and put the neocities.yml into .github/workflows on your Jekyll site.
 
+*Note: I have this running in the root directory, but if you don't want to do that, make a new user!*
+
 NOW, as long as your new posts are formatted /year/month/day/title, and you've *correctly* supplied your blog URL and VPS IP to the YML, and *as long as* your new posts go to _posts on your site, AND as long as you setup BOTH of those keys, and supplied poast.py with your instance URL (there are clearly marked sections in both scripts that depict where you should put these things) ...
 
 This will post new Jekyll blog posts directly to Mastodon, by reading the current day and *only* posting blog posts ***from said date*** (I've done this in order to avoid spam, which I have done, by accident, multiple times).
