@@ -7,6 +7,8 @@ So, how you'll get this to work ...
 
 Firstly, *if you use* Deploy to Neocities, you'll want to have your Neocities API key in a Github secret. But! In order for this workflow to SSH into your VPS (you *NEED* to have a server of some kind in order to make this work), you need to create an SSH key ***without*** a passphrase, and then copy the public key into *another* Github secret. Then, make sure the key is in your authorized_keys file ***on the server*** this script/workflow is connecting to.
 
+*(I've been informed that you can actually execute Python in the Github workflow, so, if you'd like to do that instead, go right ahead! I'll keep this on a VPS as that's how I have it setup, and I pay for it anyway)*
+
 Once you've done that, it's SIMPLE.
 
 Put poast.py in /masto-poast/ in whatever directory you're SSH-ing into (you can change this, if you want), and put the neocities.yml into .github/workflows on your Jekyll site.
