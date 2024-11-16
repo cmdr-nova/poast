@@ -11,6 +11,100 @@ Once you've done that, it's SIMPLE.
 
 Put poast.py in /masto-poast/ in whatever directory you're SSH-ing into (you can change this, if you want), and put the neocities.yml into .github/workflows on your Jekyll site.
 
-NOW, as long as your new posts are formatted /year/month/day/title, and you've *correctly* supplied your blog URL to the YML, and *as long as* your new posts go to _posts on your site, AND as long as you setup BOTH of those keys, and supplied poast.py with your instance URL ...
+NOW, as long as your new posts are formatted /year/month/day/title, and you've *correctly* supplied your blog URL and VPS IP to the YML, and *as long as* your new posts go to _posts on your site, AND as long as you setup BOTH of those keys, and supplied poast.py with your instance URL (there are clearly marked sections in both scripts that depict where you should put these things) ...
 
 This will post new Jekyll blog posts directly to Mastodon, by reading the current day and *only* posting blog posts ***from said date*** (I've done this in order to avoid spam, which I have done, by accident, multiple times).
+
+Included in poast.py is a field to customize just exactly *what* the post says once it's posted to your instance. Mine says, "Posted via Nova Prime: (url)" and then supplies a hashtag derived from my tags I'm using on Jekyll. You should *also* set that up, so that your posts can categorize themselves upon posting to Mastodon. But that's easy enough to setup.
+
+Make a "tag" folder on your Jekyll site. Make new .md files with the names of tags you frequently or want to use, and include this in the front matter:
+```
+---
+layout: tagpage
+title: "Tag: scripting"
+tag: scripting
+---
+```
+(the tag "scripting" is just an example, change these two lines to whatever your tag name is)
+
+Then, put a tagpage in _layouts:
+```
+---
+layout: default
+---
+<div id="main">
+  <table>
+    <tr>
+    <td>
+
+
+<a class="read-title" href="/">Tag: {{ page.tag }}</a>
+<br />
+<ul>
+{% for post in site.tags[page.tag] %}
+  <li><a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date |     date_to_string }})<br>
+    {{ post.description }}
+  </li>
+{% endfor %}
+</ul>
+</div>
+
+
+{% include archive.html %}
+
+  </td>
+  </tr>
+  </table>
+
+</div>
+```
+Then, put an archive.html and collecttags.html in your _includes.
+
+archive.html:
+```
+
+<p><em>custom text for whatever you want to type at the top of your archive page</em></p>
+
+<p class="cloud">
+{% capture temptags %}
+  {% for tag in site.tags %}
+    {{ tag[1].size | plus: 1000 }}#{{ tag[0] }}#{{ tag[1].size }}
+  {% endfor %}
+{% endcapture %}
+{% assign sortedtemptags = temptags | split:' ' | sort | reverse %}
+{% for temptag in sortedtemptags %}
+  {% assign tagitems = temptag | split: '#' %}
+  {% capture tagname %}{{ tagitems[1] }}{% endcapture %}
+  <a href="/tag/{{ tagname }}"><code class="highligher"><nobr>{{ tagname    }}</nobr></code></a>
+{% endfor %}
+</p>
+```
+
+collecttags.html
+```
+{% assign rawtags = "" %}
+{% for post in site.posts %}
+  {% assign ttags = post.tags | join:'|' | append:'|' %}
+  {% assign rawtags = rawtags | append:ttags %}
+{% endfor %}
+{% assign rawtags = rawtags | split:'|' | sort %}
+
+{% assign site.tags = "" %}
+{% for tag in rawtags %}
+  {% if tag != "" %}
+    {% if tags == "" %}
+      {% assign tags = tag | split:'|' %}
+    {% endif %}
+    {% unless tags contains tag %}
+      {% assign tags = tags | join:'|' | append:'|' | append:tag | split:'|' %}
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+```
+Then, in the "head" document (which you should have as head.html in the _includes directory), add this:
+```
+{% if site.tags != "" %}
+    {% include collecttags.html %}
+  {% endif %}
+```
+Boom, now you can put tags onto your posts, and **POAST** will use these as hashtags once posted to Mastodon.
